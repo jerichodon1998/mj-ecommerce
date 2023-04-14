@@ -1,13 +1,14 @@
-import ProductCard from "@/components/product/ProductCard";
-import { useEffect, useState } from "react";
-import { axiosInstance } from "./api/axiosInstance";
 import Spinner from "@/components/loader/Spinner";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { axiosInstance } from "../api/axiosInstance";
 import Pagination_Component from "@/components/pagination/Pagination_Component";
+import AdminProductCard from "@/components/product/AdminProductCard";
+import AdminCreateProductModal from "@/components/product/AdminCreateProduct";
 
-export default function Home() {
+const Store = () => {
+	const [products, setProducts] = useState(null);
 	const router = useRouter();
-	const [products, setProducts] = useState();
 	const [pageLoad, setPageLoad] = useState(false);
 	const [pages, setPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
@@ -29,24 +30,38 @@ export default function Home() {
 		}
 	}, [router, currentPage]);
 
+	useEffect(() => {}, []);
 	const renderProducts = () => {
 		return (
-			<div className="grid place-items-center lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-8">
+			<div className="grid place-items-center grid-flow-row gap-8">
 				{products?.map((product) => {
-					return <ProductCard key={product?._id} product={product} />;
+					return <AdminProductCard key={product?._id} product={product} />;
 				})}
 			</div>
 		);
 	};
 
+	const renderPage = () => {
+		return (
+			<div>
+				<div className="text-center text-2xl p-10">My Store</div>
+				<AdminCreateProductModal />
+				<div>{renderProducts()}</div>
+			</div>
+		);
+	};
 	return pageLoad ? (
 		<Spinner className={"w-64 h-64 m-auto"} />
 	) : (
 		<>
-			{renderProducts()}
-			<div>
-				<Pagination_Component totalpages={pages} pathname="/" currentpage={currentPage} />
-			</div>
+			{renderPage()}
+			<Pagination_Component
+				currentpage={currentPage}
+				totalpages={pages}
+				pathname={"/store"}
+			/>
 		</>
 	);
-}
+};
+
+export default Store;

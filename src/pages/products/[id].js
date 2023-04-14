@@ -1,0 +1,181 @@
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { axiosInstance } from "../api/axiosInstance";
+import Image from "next/image";
+import { createObjectUrlImage } from "@/helper/createObjectUrlImage";
+import Spinner from "@/components/loader/Spinner";
+import CustomButton from "@/components/buttons/CustomButton";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, getUserCart, resetCartSliceState } from "@/redux/cart/cartSlice";
+import QuantityComponent from "@/components/quantity/QuantityComponent";
+
+const ProductPage = () => {
+	const [product, setProduct] = useState(null);
+	const [selectedImage, setSeletedImage] = useState(0);
+	const [photosLoading, setPhotosLoading] = useState(true);
+	const [renderImages, setRenderImages] = useState([]);
+	const [quantity, setQuantity] = useState(1);
+
+	const dispatch = useDispatch();
+	const router = useRouter();
+
+	const { id } = router.query;
+	const signinStore = useSelector((state) => state.signinStore);
+	const cartStore = useSelector((state) => state.cartStore);
+
+	const showImages = () => {
+		return renderImages.map((image, i) => {
+			return (
+				<div
+					key={product.imagesId[i]}
+					className="relative w-24 h-24"
+					onClick={(e) => setSeletedImage(i)}
+					onMouseOver={(e) => setSeletedImage(i)}
+				>
+					<Image
+						src={image}
+						alt="product image"
+						fill
+						className={`${selectedImage == i ? "border-2 border-red-500" : null}`}
+					/>
+				</div>
+			);
+		});
+	};
+
+	const onAddTocart = async () => {
+		if (!signinStore.isLoggedin) {
+			router.push("/signin");
+		} else {
+			axiosInstance
+				.get(`/cart/${signinStore.data._id}`)
+				.then((response) => {
+					if (response.status === 200) {
+						dispatch(resetCartSliceState());
+						dispatch(
+							addToCart({
+								uid: signinStore.data._id,
+								productId: product._id,
+								quantity: quantity,
+							})
+						);
+					}
+				})
+				.catch((error) => {
+					if (error.response.status === 404) {
+						axiosInstance
+							.post(`/cart/${signinStore.data._id}`)
+							.then((response) => {
+								if (response.status === 200) {
+									dispatch(resetCartSliceState());
+									dispatch(
+										addToCart({
+											uid: signinStore.data._id,
+											productId: product._id,
+											quantity: quantity,
+										})
+									);
+								}
+							})
+							.catch((error) => {
+								console.log(error);
+							});
+					} else {
+						dispatch(getUserCart(signinStore.data._id));
+					}
+				});
+		}
+	};
+
+	// get product
+	useEffect(() => {
+		if (id) {
+			axiosInstance
+				.get(`products/${id}`)
+				.then((response) => {
+					setProduct(response.data);
+				})
+				.catch((error) => console.log(error));
+		}
+	}, [id]);
+
+	// get product images
+	useEffect(() => {
+		setPhotosLoading(true);
+		if (product) {
+			let images = [];
+			product?.imagesId.map((image) => {
+				axiosInstance
+					.get(`images/${image}`, { responseType: "blob" })
+					.then((response) => {
+						images.push(createObjectUrlImage(response.data));
+						setRenderImages(() => [...images]);
+						setPhotosLoading(false);
+					})
+					.catch((error) => {
+						console.log(error);
+						setPhotosLoading(false);
+					});
+			});
+		}
+	}, [product]);
+
+	return (
+		<div className="grid grid-cols-5 px-5 py-5 bg-secondary/10 gap-4">
+			<div className="grid grid-flow-row col-span-2 gap-4">
+				<div className="w-64 h-64 relative">
+					{photosLoading > 0 ? (
+						<Spinner className={"m-auto"} />
+					) : (
+						<Image src={renderImages[selectedImage]} alt="product image" fill />
+					)}
+				</div>
+				<div className="grid grid-flow-col bg-secondary/50 py-2 px-5">
+					{photosLoading ? <Spinner className={"m-auto"} /> : showImages()}
+				</div>
+			</div>
+			<div className="grid grid-flow-row gap-2">
+				<div className="bg-white rounded-sm p-1">
+					Price:
+					<span>$</span>
+					{product?.price}
+				</div>
+				<div className="bg-white rounded-sm p-1">
+					Brand:
+					{product?.brand}
+				</div>
+				<div className="bg-white rounded-sm p-1">{product?.name}</div>
+			</div>
+			<div className="grid grid-flow-row gap-2">
+				<div className="bg-white rounded-sm p-1">
+					Stock:
+					{product?.stock}
+				</div>
+				<div className="bg-white rounded-sm p-1">{product?.description}</div>
+				<div className="bg-white rounded-sm p-1">Rating:{product?.rating}</div>
+			</div>
+			<div className="flex justify-center items-center">
+				<div>
+					<CustomButton
+						variant={"dark"}
+						classname={"w-40 p-5"}
+						isLoading={cartStore.isLoading}
+						onClick={onAddTocart}
+					>
+						<AddShoppingCartIcon
+							className="cursor-pointer h-8 w-8"
+							fontSize="inherit"
+						/>
+						Add to cart
+					</CustomButton>
+					<div className="flex justify-center items-center">
+						<QuantityComponent quantity={quantity} setQuantity={setQuantity} />
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};
+
+export default ProductPage;

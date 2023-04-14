@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-}
+	reactStrictMode: true,
+	images: {
+		domains: ["skillicons.dev"],
+		dangerouslyAllowSVG: true,
+	},
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
