@@ -82,7 +82,7 @@ const MyCart = () => {
 		<div>
 			{renderCart()}
 			<div className="bg-secondary text-white p-5">
-				TOTAL: $ <span className="text-xl">{cartTotal}</span>
+				TOTAL: ₱<span className="text-xl">{cartTotal}</span>
 			</div>
 		</div>
 	);

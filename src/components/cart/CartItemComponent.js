@@ -6,11 +6,13 @@ import Image from "next/image";
 import CustomButton from "../buttons/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart, resetCartSliceState } from "@/redux/cart/cartSlice";
+import { useRouter } from "next/router";
 
 const CartItemComponent = ({ itemId }) => {
 	const signinStore = useSelector((state) => state.signinStore);
 	const cartStore = useSelector((state) => state.cartStore);
 	const dispatch = useDispatch();
+	const router = useRouter();
 
 	const [isComponentLoading, setIsComponentLoading] = useState(false);
 	const [isImageLoading, setIsImageLoading] = useState(false);
@@ -22,17 +24,21 @@ const CartItemComponent = ({ itemId }) => {
 
 	const onRemoveItemFromCart = async () => {
 		dispatch(resetCartSliceState());
-		dispatch(removeFromCart({ uid: signinStore.data._id, cartItemId: cartItem._id })).then(
-			async () => {
-				axiosInstance.get(`/cart/${signinStore.data._id}`).then(async (response) => {
+		dispatch(
+			removeFromCart({ uid: signinStore.data._id, cartItemId: cartItem._id })
+		).then(async () => {
+			axiosInstance
+				.get(`/cart/${signinStore.data._id}`)
+				.then(async (response) => {
 					if (response.data.cartItemsId.length == 0) {
-						axiosInstance.delete(`/cart/${signinStore.data._id}`).catch((error) => {
-							console.log(error.response);
-						});
+						axiosInstance
+							.delete(`/cart/${signinStore.data._id}`)
+							.catch((error) => {
+								console.log(error.response);
+							});
 					}
 				});
-			}
-		);
+		});
 	};
 
 	// get cart item
@@ -99,12 +105,15 @@ const CartItemComponent = ({ itemId }) => {
 								<Spinner className={"m-auto"} />
 							)}
 						</div>
-						<div className="text-lg font-semibold text-secondary leading-3">
+						<div
+							className="text-lg font-semibold text-secondary leading-3 cursor-pointer"
+							onClick={(e) => router.push(`/products/${productItem._id}`)}
+						>
 							{productItem.name}
 						</div>
 					</div>
 					<div className="grid grid-flow-row">
-						<div>Price: $ {productItem.price}</div>
+						<div>Price: ₱ {productItem.price}</div>
 						<div>Quantity: {cartItem.quantity}</div>
 						<div>
 							Total: ${" "}
@@ -134,7 +143,11 @@ const CartItemComponent = ({ itemId }) => {
 
 	return (
 		<div className="bg-tertiary/25 p-5">
-			{isComponentLoading ? <Spinner className={`w-24 h-24 m-auto`} /> : renderProductItem()}
+			{isComponentLoading ? (
+				<Spinner className={`w-24 h-24 m-auto`} />
+			) : (
+				renderProductItem()
+			)}
 		</div>
 	);
 };

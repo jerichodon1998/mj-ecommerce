@@ -10,8 +10,18 @@ const ProductCard = ({ product }) => {
 	const [pageLoad, setPageLoad] = useState(false);
 	const router = useRouter();
 
-	const { _id, category, currency, description, imagesId, ownerId, name, price, rating, stock } =
-		product;
+	const {
+		_id,
+		category,
+		currency,
+		description,
+		imagesId,
+		ownerId,
+		name,
+		price,
+		rating,
+		stock,
+	} = product;
 
 	const pushToProduct = () => {
 		router.push(`products/${_id}`);
@@ -33,7 +43,10 @@ const ProductCard = ({ product }) => {
 
 	return (
 		<div className="w-64 h-96 bg-secondary  shadow-lg shadow-secondary/25 rounded-md justify-center items-center grid grid-flow-row text-white/80">
-			<div className="w-56 h-48 relative cursor-pointer" onClick={pushToProduct}>
+			<div
+				className="w-56 h-48 relative cursor-pointer"
+				onClick={pushToProduct}
+			>
 				{renderImage ? <Image src={renderImage} alt={name} fill /> : null}
 				{pageLoad ? <Spinner className={"m-auto"} /> : null}
 			</div>
@@ -45,12 +58,12 @@ const ProductCard = ({ product }) => {
 						className="font-bold text-xl leading-3 cursor-pointer"
 						onClick={pushToProduct}
 					>
-						{name}
+						{name.length > 15 ? `${name.substring(0, 15)} ...` : name}
 					</div>
 					<div className="flex justify-between">
 						<div className="font-bold">stock: {stock}</div>
 						<div>
-							<span className="font-bold text-3xl leading-3">$</span>
+							<span className="font-bold text-3xl leading-3">₱</span>
 							<span className="">{price}</span>
 						</div>
 					</div>

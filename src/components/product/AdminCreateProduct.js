@@ -5,6 +5,7 @@ import CustomButton from "../buttons/CustomButton";
 
 const AdminCreateProductModal = () => {
 	const signinStore = useSelector((state) => state.signinStore);
+	const productStore = useSelector((state) => state.productStore);
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 	const [brand, setBrand] = useState("");
@@ -43,9 +44,9 @@ const AdminCreateProductModal = () => {
 		<div className="bg-zinc-600 p-5 my-10 shadow-md shadow-zinc-600">
 			<div className="text-center text-2xl text-white">Create A Product</div>
 			<form onSubmit={onProductSubmit}>
-				<div className="grid rounded-md grid-cols-3 gap-4">
-					<div className="col-span-1">
-						<div className="grid grid-cols-2 gap-4">
+				<div className="grid rounded-md grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					<div>
+						<div className="grid md:grid-cols-2 grid-cols-1 gap-4">
 							<label className="mr-1 text-white">Product Name:</label>
 							<input
 								required
@@ -113,10 +114,10 @@ const AdminCreateProductModal = () => {
 							/>
 						</div>
 					</div>
-					<div className="col-span-1">
+					<div>
 						<input
 							required
-							className="bg-zinc-200 rounded-md"
+							className="bg-zinc-200 rounded-md w-full"
 							type={"file"}
 							onChange={(e) => setImages(e.target.files)}
 							multiple
@@ -128,6 +129,7 @@ const AdminCreateProductModal = () => {
 						type={"submit"}
 						text={"Create Product"}
 						variant={"dark"}
+						isLoading={productStore.isLoading}
 					/>
 				</div>
 			</form>

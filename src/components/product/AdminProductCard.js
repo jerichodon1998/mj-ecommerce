@@ -6,10 +6,14 @@ import { useEffect, useState } from "react";
 import Spinner from "../loader/Spinner";
 import CustomButton from "../buttons/CustomButton";
 import AdminProductUpdateModal from "./AdminProductUpdateModal";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProduct, resetProductState } from "@/redux/product/productSlice";
 
 const AdminProductCard = ({ product }) => {
 	const [renderImage, setRenderImage] = useState(null);
 	const [pageLoad, setPageLoad] = useState(false);
+	const productStore = useSelector((state) => state.productStore);
+	const dispatch = useDispatch();
 	const router = useRouter();
 
 	const {
@@ -30,6 +34,15 @@ const AdminProductCard = ({ product }) => {
 		router.push(`products/${_id}`);
 	};
 
+	const deleteProductFromStore = () => {
+		dispatch(resetProductState());
+		dispatch(deleteProduct({ productId: _id })).then(() => {
+			imagesId.map((imageId) => {
+				axiosInstance.delete(`/images/${imageId}`);
+			});
+		});
+	};
+
 	// get image by imageId
 	useEffect(() => {
 		setPageLoad(true);
@@ -47,27 +60,33 @@ const AdminProductCard = ({ product }) => {
 	return pageLoad ? (
 		<Spinner className={"m-auto"} />
 	) : (
-		<div className="w-full h-64 bg-secondary/25 shadow-md shadow-secondary/25 rounded-md text-primary grid grid-cols-5 gap-4 p-5">
-			<div className="w-56 h-48 relative cursor-pointer col-span-1" onClick={pushToProduct}>
+		<div className="w-full bg-secondary/25 shadow-md shadow-secondary/25 rounded-md text-primary grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-5">
+			<div
+				className="w-full h-48 relative cursor-pointer col-span-1"
+				onClick={pushToProduct}
+			>
 				{renderImage ? <Image src={renderImage} alt={name} fill /> : null}
 				{pageLoad ? <Spinner className={"m-auto"} /> : null}
 			</div>
-			<div onClick={pushToProduct} className="grid col-span-1">
+			<div className="grid col-span-1">
 				<div>
 					Name:{" "}
-					<span className="font-bold text-xl text-primary leading-3 cursor-pointer ">
+					<span
+						onClick={pushToProduct}
+						className="font-bold text-xl text-primary leading-3 cursor-pointer "
+					>
 						{name}
 					</span>
 				</div>
 				<div className=" col-span-1">
 					Category:{" "}
-					<span className="font-bold text-xl text-primary leading-3 cursor-pointer ">
+					<span className="font-bold text-xl text-primary leading-3">
 						{category}
 					</span>
 				</div>
 				<div className=" col-span-1">
 					Brand:{" "}
-					<span className="font-bold text-xl text-primary leading-3 cursor-pointer ">
+					<span className="font-bold text-xl text-primary leading-3">
 						{brand}
 					</span>
 				</div>
@@ -76,14 +95,23 @@ const AdminProductCard = ({ product }) => {
 				<div className="font-bold">stock: {stock}</div>
 				<div>Currency: {currency}</div>
 				<div>
-					Price: <span className="font-bold text-3xl leading-3">$</span>
+					Price: <span className="font-bold text-3xl leading-3">₱</span>
 					<span className="text-secondary">{price}</span>
 				</div>
 			</div>
-			<div className="w-56 col-span-1">{description}</div>
-			<div className="grid grid-flow-row col-span-1">
+			<div className="w-56 col-span-1">
+				<div className="overflow-scroll overflow-x-hidden max-h-40 w-10/12">
+					{description}
+				</div>
+			</div>
+			<div className="grid grid-flow-col col-span-1  xl:grid-flow-row">
 				<AdminProductUpdateModal product={product} renderImage={renderImage} />
-				<CustomButton text={"Delete"} variant={"dark"} />
+				<CustomButton
+					text={"Delete"}
+					variant={"dark"}
+					isLoading={productStore.isLoading}
+					onClick={deleteProductFromStore}
+				/>
 			</div>
 		</div>
 	);

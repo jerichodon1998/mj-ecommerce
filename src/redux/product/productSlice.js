@@ -40,10 +40,13 @@ export const updateProduct = createAsyncThunk(
 );
 
 export const deleteProduct = createAsyncThunk(
-	"/deleteProduct/${data.productId}",
+	"/deleteProduct/",
 	async (data, { rejectWithValue }) => {
 		try {
-			const response = axiosInstance.post(`/products`, data);
+			const response = axiosInstance.delete(
+				`/products/${data.productId}`,
+				data
+			);
 			return response;
 		} catch (error) {
 			return rejectWithValue(error.response);
@@ -68,13 +71,21 @@ export const productSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addMatcher(
-				isAnyOf(updateProduct.pending, createProduct.pending, deleteProduct.pending),
+				isAnyOf(
+					updateProduct.pending,
+					createProduct.pending,
+					deleteProduct.pending
+				),
 				(state, action) => {
 					state.isLoading = true;
 				}
 			)
 			.addMatcher(
-				isAnyOf(updateProduct.fulfilled, createProduct.fulfilled, deleteProduct.fulfilled),
+				isAnyOf(
+					updateProduct.fulfilled,
+					createProduct.fulfilled,
+					deleteProduct.fulfilled
+				),
 				(state, action) => {
 					state.data = action.payload?.data;
 					state.isLoading = false;
@@ -85,7 +96,11 @@ export const productSlice = createSlice({
 				}
 			)
 			.addMatcher(
-				isAnyOf(updateProduct.rejected, createProduct.rejected, deleteProduct.rejected),
+				isAnyOf(
+					updateProduct.rejected,
+					createProduct.rejected,
+					deleteProduct.rejected
+				),
 				(state, action) => {
 					state.data = null;
 					state.statusCode = action.payload?.status;

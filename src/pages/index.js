@@ -31,7 +31,7 @@ export default function Home() {
 
 	const renderProducts = () => {
 		return (
-			<div className="grid place-items-center lg:grid-cols-3 xl:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-8">
+			<div className="grid place-items-center lg:grid-cols-3 xl:grid-cols-4 sm:grid-cols-2 xm:grid-cols-1 gap-8">
 				{products?.map((product) => {
 					return <ProductCard key={product?._id} product={product} />;
 				})}
@@ -45,7 +45,11 @@ export default function Home() {
 		<>
 			{renderProducts()}
 			<div>
-				<Pagination_Component totalpages={pages} pathname="/" currentpage={currentPage} />
+				<Pagination_Component
+					totalpages={pages}
+					pathname="/"
+					currentpage={currentPage}
+				/>
 			</div>
 		</>
 	);

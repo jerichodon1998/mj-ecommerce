@@ -3,7 +3,10 @@ import SignupButton from "@/components/authentication_registration/SignupButton"
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { persistUser, resetSigninState } from "@/redux/authentitcationRegistration/signinSlice";
+import {
+	persistUser,
+	resetSigninState,
+} from "@/redux/authentitcationRegistration/signinSlice";
 import AccountNavIcon from "@/components/account/AccountNavIcon";
 import SignoutButton from "@/components/authentication_registration/SignoutButton";
 import CartComponent from "@/components/cart/CartComponent";
@@ -30,66 +33,87 @@ const Header = () => {
 		router.push("/");
 	};
 
-	const menuOptions = () => {
+	const renderOptions = () => {
+		if (signinStore?.isLoggedin) {
+			if (signinStore?.data.role === "admin") {
+				return (
+					<div className="flex gap-4">
+						<AccountNavIcon />
+						<StoreComponent />
+						<CartComponent />
+						<SignoutButton />
+					</div>
+				);
+			} else {
+				return (
+					<div className="flex gap-4">
+						<AccountNavIcon />
+						<CartComponent />
+						<SignoutButton />
+					</div>
+				);
+			}
+		} else {
+			return (
+				<div className="flex gap-4">
+					<SigninButton />
+					<SignupButton />
+				</div>
+			);
+		}
+	};
+
+	const menu = () => {
 		return (
 			<>
-				<div className={`justify-evenly hidden lg:flex`}>
-					<div className={navStyle} onClick={pushToHome}>
-						Home
+				<div
+					className={`grid grid-flow-col gap-8 justify-between md:justify-end`}
+				>
+					<div className="flex gap-8 ">
+						<div className={navStyle} onClick={pushToHome}>
+							Home
+						</div>
+						<div className={navStyle} onClick={(e) => router.push("/about")}>
+							About
+						</div>
+						<div className={navStyle} onClick={(e) => router.push("/contact")}>
+							Contact
+						</div>
 					</div>
-					<div className={navStyle} onClick={(e) => router.push("/about")}>
-						About
-					</div>
-					<div className={navStyle} onClick={(e) => router.push("/contact")}>
-						Contact
-					</div>
-				</div>
-				<div className="gap-4 grid-flow-col justify-end hidden lg:grid">
-					{signinStore.isLoggedin ? (
-						<>
-							<AccountNavIcon />
-							{signinStore.data.role == "admin" ? <StoreComponent /> : null}
-							<CartComponent />
-							<SignoutButton />
-						</>
-					) : (
-						<>
-							<SigninButton />
-							<SignupButton />
-						</>
-					)}
+					<div className="hidden lg:flex">{renderOptions()}</div>
+					<MenuIcon
+						fontSize="inherit"
+						className="w-8 h-8 flex lg:hidden"
+						onClick={() => {
+							setShowMenu(!showMenu);
+						}}
+					/>
 				</div>
 			</>
 		);
 	};
 
-	const hamburgerMenu = () => {
-		return (
-			<MenuIcon
-				onClick={(e) => {
-					setShowMenu(!showMenu);
-				}}
-				fontSize="inherit"
-				className="w-32 h-8 text-white lg:hidden"
-			>
-				{showMenu ? <div className="absoluteolute justify-end z-50 w-1/3">yawa</div> : null}
-			</MenuIcon>
-		);
-	};
-
 	return (
-		<div className="bg-primary h-16 md:h-24 items-center justify-between px-5 text-white grid lg:grid-cols-3">
-			<div>
-				<span
-					className="md:text-3xl lg:text-4xl xl:text-5xl cursor-pointer hover:underline"
-					onClick={pushToHome}
-				>
-					Mj&apos;s Ecommerce
-				</span>
+		<>
+			<div className="bg-primary h-40 sm:h-32 md:h-24 items-center px-5 text-white grid justify-center grid-cols-1 md:grid-cols-2">
+				<div>
+					<span
+						className="text-4xl xl:text-5xl cursor-pointer hover:underline"
+						onClick={pushToHome}
+					>
+						Mj&apos;s Ecommerce
+					</span>
+				</div>
+				{menu()}
 			</div>
-			{menuOptions()}
-			{hamburgerMenu()}
-		</div>
+			<div
+				className={` ${
+					showMenu ? "bg-primary w-full" : "hidden"
+				} absolute z-50 flex gap-8 justify-center text-white p-5 lg:hidden`}
+			>
+				{renderOptions()}
+			</div>
+		</>
 	);
 };
 

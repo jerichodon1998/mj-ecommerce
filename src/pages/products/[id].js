@@ -7,7 +7,11 @@ import Spinner from "@/components/loader/Spinner";
 import CustomButton from "@/components/buttons/CustomButton";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, getUserCart, resetCartSliceState } from "@/redux/cart/cartSlice";
+import {
+	addToCart,
+	getUserCart,
+	resetCartSliceState,
+} from "@/redux/cart/cartSlice";
 import QuantityComponent from "@/components/quantity/QuantityComponent";
 
 const ProductPage = () => {
@@ -31,13 +35,14 @@ const ProductPage = () => {
 					key={product.imagesId[i]}
 					className="relative w-24 h-24"
 					onClick={(e) => setSeletedImage(i)}
-					onMouseOver={(e) => setSeletedImage(i)}
 				>
 					<Image
 						src={image}
 						alt="product image"
 						fill
-						className={`${selectedImage == i ? "border-2 border-red-500" : null}`}
+						className={`${
+							selectedImage == i ? "border-2 border-red-500" : null
+						}`}
 					/>
 				</div>
 			);
@@ -122,24 +127,26 @@ const ProductPage = () => {
 	}, [product]);
 
 	return (
-		<div className="grid grid-cols-5 px-5 py-5 bg-secondary/10 gap-4">
-			<div className="grid grid-flow-row col-span-2 gap-4">
-				<div className="w-64 h-64 relative">
+		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 py-5 bg-secondary/10 gap-4">
+			<div className="grid grid-flow-row col-span-1 gap-4">
+				<div className="w-full h-64 relative">
 					{photosLoading > 0 ? (
 						<Spinner className={"m-auto"} />
 					) : (
 						<Image src={renderImages[selectedImage]} alt="product image" fill />
 					)}
 				</div>
-				<div className="grid grid-flow-col bg-secondary/50 py-2 px-5">
+				<div className="grid grid-flow-col overflow-x-auto bg-secondary/50 py-2 px-5">
 					{photosLoading ? <Spinner className={"m-auto"} /> : showImages()}
 				</div>
 			</div>
 			<div className="grid grid-flow-row gap-2">
 				<div className="bg-white rounded-sm p-1">
 					Price:
-					<span>$</span>
-					{product?.price}
+					{new Intl.NumberFormat("php", {
+						style: "currency",
+						currency: "PHP",
+					}).format(product?.price)}
 				</div>
 				<div className="bg-white rounded-sm p-1">
 					Brand:
@@ -152,7 +159,9 @@ const ProductPage = () => {
 					Stock:
 					{product?.stock}
 				</div>
-				<div className="bg-white rounded-sm p-1">{product?.description}</div>
+				<div className="bg-white rounded-sm p-1 overflow-scroll overflow-x-hidden h-64">
+					{product?.description}
+				</div>
 				<div className="bg-white rounded-sm p-1">Rating:{product?.rating}</div>
 			</div>
 			<div className="flex justify-center items-center">
