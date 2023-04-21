@@ -13,6 +13,7 @@ import {
 	resetCartSliceState,
 } from "@/redux/cart/cartSlice";
 import QuantityComponent from "@/components/quantity/QuantityComponent";
+import { ToastContainer, toast } from "react-toastify";
 
 const ProductPage = () => {
 	const [product, setProduct] = useState(null);
@@ -93,6 +94,24 @@ const ProductPage = () => {
 		}
 	};
 
+	useEffect(() => {
+		// returned function will be called on component unmount
+		return () => {
+			dispatch(resetCartSliceState());
+		};
+	}, []);
+
+	// toast
+	useEffect(() => {
+		if (cartStore.isRequestDone) {
+			if (cartStore?.statusCode >= 200 && cartStore?.statusCode < 300) {
+				toast.success(cartStore.data);
+			} else {
+				toast.error(cartStore.statusText);
+			}
+		}
+	}, [cartStore?.statusCode, cartStore.isRequestDone]);
+
 	// get product
 	useEffect(() => {
 		if (id) {
@@ -127,63 +146,75 @@ const ProductPage = () => {
 	}, [product]);
 
 	return (
-		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 py-5 bg-secondary/10 gap-4">
-			<div className="grid grid-flow-row col-span-1 gap-4">
-				<div className="w-full h-64 relative">
-					{photosLoading > 0 ? (
-						<Spinner className={"m-auto"} />
-					) : (
-						<Image src={renderImages[selectedImage]} alt="product image" fill />
-					)}
+		<>
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 py-5 bg-secondary/10 gap-4">
+				<div className="grid grid-flow-row col-span-1 gap-4">
+					<div className="w-full h-64 relative">
+						{photosLoading > 0 ? (
+							<Spinner className={"m-auto"} />
+						) : (
+							<Image
+								src={renderImages[selectedImage]}
+								alt="product image"
+								fill
+							/>
+						)}
+					</div>
+					<div className="grid grid-flow-col overflow-x-auto bg-secondary/50 py-2 px-5">
+						{photosLoading ? <Spinner className={"m-auto"} /> : showImages()}
+					</div>
 				</div>
-				<div className="grid grid-flow-col overflow-x-auto bg-secondary/50 py-2 px-5">
-					{photosLoading ? <Spinner className={"m-auto"} /> : showImages()}
+				<div className="grid grid-flow-row gap-2">
+					<div className="bg-white rounded-sm p-1">
+						Price:
+						{new Intl.NumberFormat("php", {
+							style: "currency",
+							currency: "PHP",
+						}).format(product?.price)}
+					</div>
+					<div className="bg-white rounded-sm p-1">
+						Brand:
+						{product?.brand}
+					</div>
+					<div className="bg-white rounded-sm p-1">{product?.name}</div>
 				</div>
-			</div>
-			<div className="grid grid-flow-row gap-2">
-				<div className="bg-white rounded-sm p-1">
-					Price:
-					{new Intl.NumberFormat("php", {
-						style: "currency",
-						currency: "PHP",
-					}).format(product?.price)}
+				<div className="grid grid-flow-row gap-2">
+					<div className="bg-white rounded-sm p-1">
+						Stock:
+						{product?.stock}
+					</div>
+					<div className="bg-white rounded-sm p-1 overflow-scroll overflow-x-hidden h-64">
+						{product?.description}
+					</div>
+					<div className="bg-white rounded-sm p-1">
+						Rating:{product?.rating}
+					</div>
 				</div>
-				<div className="bg-white rounded-sm p-1">
-					Brand:
-					{product?.brand}
-				</div>
-				<div className="bg-white rounded-sm p-1">{product?.name}</div>
-			</div>
-			<div className="grid grid-flow-row gap-2">
-				<div className="bg-white rounded-sm p-1">
-					Stock:
-					{product?.stock}
-				</div>
-				<div className="bg-white rounded-sm p-1 overflow-scroll overflow-x-hidden h-64">
-					{product?.description}
-				</div>
-				<div className="bg-white rounded-sm p-1">Rating:{product?.rating}</div>
-			</div>
-			<div className="flex justify-center items-center">
-				<div>
-					<CustomButton
-						variant={"dark"}
-						classname={"w-40 p-5"}
-						isLoading={cartStore.isLoading}
-						onClick={onAddTocart}
-					>
-						<AddShoppingCartIcon
-							className="cursor-pointer h-8 w-8"
-							fontSize="inherit"
-						/>
-						Add to cart
-					</CustomButton>
-					<div className="flex justify-center items-center">
-						<QuantityComponent quantity={quantity} setQuantity={setQuantity} />
+				<div className="flex justify-center items-center">
+					<div>
+						<CustomButton
+							variant={"dark"}
+							classname={"w-40 p-5"}
+							isLoading={cartStore.isLoading}
+							onClick={onAddTocart}
+						>
+							<AddShoppingCartIcon
+								className="cursor-pointer h-8 w-8"
+								fontSize="inherit"
+							/>
+							Add to cart
+						</CustomButton>
+						<div className="flex justify-center items-center">
+							<QuantityComponent
+								quantity={quantity}
+								setQuantity={setQuantity}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+			<ToastContainer />
+		</>
 	);
 };
 

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "../api/axiosInstance";
 import Spinner from "@/components/loader/Spinner";
 import CartItemComponent from "@/components/cart/CartItemComponent";
+import { ToastContainer, toast } from "react-toastify";
 
 const MyCart = () => {
 	const cartStore = useSelector((state) => state.cartStore);
@@ -14,6 +15,26 @@ const MyCart = () => {
 	const [cart, setCart] = useState(null);
 	const [error, setError] = useState(null);
 	const dispatch = useDispatch();
+
+	// toast
+	useEffect(() => {
+		if (cartStore.isRequestDone) {
+			if (cartStore?.statusCode >= 200 && cartStore?.statusCode < 300) {
+				toast.success(cartStore.data);
+			} else {
+				toast.error(cartStore.statusText);
+			}
+		}
+	}, [cartStore?.statusCode, cartStore.isRequestDone]);
+
+	useEffect(() => {
+		// returned function will be called on component unmount
+		return () => {
+			dispatch(resetCartSliceState());
+		};
+	}, []);
+
+	// get user cart
 	useEffect(() => {
 		setIsPageLoad(true);
 		dispatch(resetCartSliceState());
@@ -35,6 +56,7 @@ const MyCart = () => {
 		}
 	}, [dispatch, signinStore.isLoggedin, signinStore.data]);
 
+	// cart total
 	useEffect(() => {
 		let total = 0;
 		if (cart) {
@@ -84,6 +106,7 @@ const MyCart = () => {
 			<div className="bg-secondary text-white p-5">
 				TOTAL: ₱<span className="text-xl">{cartTotal}</span>
 			</div>
+			<ToastContainer />
 		</div>
 	);
 };

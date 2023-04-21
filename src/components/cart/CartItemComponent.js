@@ -96,9 +96,9 @@ const CartItemComponent = ({ itemId }) => {
 	const renderProductItem = () => {
 		if (productItem) {
 			return (
-				<div className="grid grid-flow-col gap-2">
+				<div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-flow-col gap-2">
 					<div className="grid grid-flow-row gap-2">
-						<div className="w-56 h-48 relative">
+						<div className="w-full lg:w-56 h-48 relative">
 							{renderImage ? (
 								<Image src={renderImage} alt="product image" fill />
 							) : (
@@ -106,7 +106,7 @@ const CartItemComponent = ({ itemId }) => {
 							)}
 						</div>
 						<div
-							className="text-lg font-semibold text-secondary leading-3 cursor-pointer"
+							className="text-md lg:text-lg font-semibold text-secondary leading-3 cursor-pointer"
 							onClick={(e) => router.push(`/products/${productItem._id}`)}
 						>
 							{productItem.name}
@@ -122,9 +122,11 @@ const CartItemComponent = ({ itemId }) => {
 							</span>
 						</div>
 					</div>
-					<div className="w-56">
+					<div className="w-full lg:w-56">
 						<div className="font-semibold text-lg">{productItem.brand}</div>
-						<div>{productItem.description}</div>
+						<div className="overflow-scroll overflow-x-hidden h-64">
+							{productItem.description}
+						</div>
 					</div>
 					<div>
 						<CustomButton
