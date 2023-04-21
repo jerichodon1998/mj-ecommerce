@@ -5,9 +5,14 @@ import { axiosInstance } from "../api/axiosInstance";
 import Pagination_Component from "@/components/pagination/Pagination_Component";
 import AdminProductCard from "@/components/product/AdminProductCard";
 import AdminCreateProductModal from "@/components/product/AdminCreateProduct";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import { resetProductState } from "@/redux/product/productSlice";
 
 const Store = () => {
 	const [products, setProducts] = useState(null);
+	const productStore = useSelector((state) => state.productStore);
+	const dispatch = useDispatch();
 	const router = useRouter();
 	const [pageLoad, setPageLoad] = useState(false);
 	const [pages, setPages] = useState(0);
@@ -30,7 +35,21 @@ const Store = () => {
 		}
 	}, [router, currentPage]);
 
-	useEffect(() => {}, []);
+	// reset state
+	useEffect(() => {
+		dispatch(resetProductState());
+	}, []);
+
+	// toast
+	useEffect(() => {
+		if (productStore.isRequestDone) {
+			if (productStore?.statusCode >= 200 && productStore?.statusCode < 300) {
+				toast.success(productStore.data);
+			} else {
+				toast.error(productStore.statusText);
+			}
+		}
+	}, [productStore?.statusCode, productStore.isRequestDone]);
 	const renderProducts = () => {
 		return (
 			<div className="grid place-items-center grid-flow-row gap-8">
@@ -60,6 +79,7 @@ const Store = () => {
 				totalpages={pages}
 				pathname={"/store"}
 			/>
+			<ToastContainer />
 		</>
 	);
 };

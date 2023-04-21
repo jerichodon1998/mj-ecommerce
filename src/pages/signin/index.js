@@ -1,6 +1,9 @@
 import CustomButton from "@/components/buttons/CustomButton";
 import Spinner from "@/components/loader/Spinner";
-import { resetSigninState, signinUser } from "@/redux/authentitcationRegistration/signinSlice";
+import {
+	resetSigninState,
+	signinUser,
+} from "@/redux/authentitcationRegistration/signinSlice";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

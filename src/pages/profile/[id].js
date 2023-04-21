@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { axiosInstance } from "../api/axiosInstance";
 import Spinner from "@/components/loader/Spinner";
 import { createObjectUrlImage } from "@/helper/createObjectUrlImage";
@@ -9,8 +9,12 @@ import PortraitIcon from "@mui/icons-material/Portrait";
 import Image from "next/image";
 import CustomButton from "@/components/buttons/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
-import { resetProfileState, updateUserProfile } from "@/redux/profile/profileSlice";
+import {
+	resetProfileState,
+	updateUserProfile,
+} from "@/redux/profile/profileSlice";
 import CloseIcon from "@mui/icons-material/Close";
+import { ToastContainer, toast } from "react-toastify";
 
 const dataStyle = " lg:xl:text-xl font-semibold leading-3 text-primary/90";
 
@@ -31,6 +35,25 @@ const Profile = () => {
 	const [address, setAddress] = useState("");
 	const [newImage, setNewImage] = useState(null);
 	const [isPhotoLoading, setIsPhotoLoading] = useState(true);
+
+	useEffect(() => {
+		// returned function will be called on component unmount
+		return () => {
+			dispatch(resetProfileState());
+		};
+	}, []);
+
+	// toast
+	useEffect(() => {
+		if (profileStore.isRequestDone) {
+			if (profileStore?.statusCode >= 200 && profileStore?.statusCode < 300) {
+				toast.success(profileStore.data);
+			} else {
+				toast.error(profileStore.statusText);
+			}
+		}
+	}, [profileStore?.statusCode, profileStore.isRequestDone]);
+
 	// fetch user
 	useEffect(() => {
 		if (uid) {
@@ -46,12 +69,15 @@ const Profile = () => {
 				});
 		}
 	}, [uid]);
+
 	// fetch user image
 	useEffect(() => {
 		setIsPhotoLoading(true);
 		if (userProfile?.status == 200 && userProfile.data.profilePictureId) {
 			axiosInstance
-				.get(`/images/${userProfile.data.profilePictureId}`, { responseType: "blob" })
+				.get(`/images/${userProfile.data.profilePictureId}`, {
+					responseType: "blob",
+				})
 				.then((response) => {
 					setProfilePicture(createObjectUrlImage(response.data));
 					setIsPhotoLoading(false);
@@ -245,7 +271,14 @@ const Profile = () => {
 		return <div className="text-4xl">{userProfile?.data}</div>;
 	};
 
-	return pageLoading ? <Spinner className={"w-64 h-64 m-auto"} /> : renderFetchedData();
+	return pageLoading ? (
+		<Spinner className={"w-64 h-64 m-auto"} />
+	) : (
+		<>
+			{renderFetchedData()}
+			<ToastContainer />
+		</>
+	);
 };
 
 export default Profile;
