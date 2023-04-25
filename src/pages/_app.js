@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }) {
 		<Provider store={store}>
 			<div className={grotesk.className}>
 				<Header />
-				<div className="mb-32 m-5 md:10 lg:m-20">
+				<div className="mb-32 pt-10 pb-5 mx-5 sm:mx-10 lg:mx-16 xl:mx-20">
 					<Component {...pageProps} />
 				</div>
 				<Footer />
