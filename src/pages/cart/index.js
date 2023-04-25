@@ -1,10 +1,11 @@
-import { resetCartSliceState } from "@/redux/cart/cartSlice";
+import { checkOutCart, resetCartSliceState } from "@/redux/cart/cartSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosInstance } from "../api/axiosInstance";
 import Spinner from "@/components/loader/Spinner";
 import CartItemComponent from "@/components/cart/CartItemComponent";
 import { ToastContainer, toast } from "react-toastify";
+import CustomButton from "@/components/buttons/CustomButton";
 
 const MyCart = () => {
 	const cartStore = useSelector((state) => state.cartStore);
@@ -16,16 +17,14 @@ const MyCart = () => {
 	const [error, setError] = useState(null);
 	const dispatch = useDispatch();
 
-	// toast
+	const onCheckOut = () => {
+		dispatch(resetCartSliceState());
+		dispatch(checkOutCart({ uid: signinStore.data._id }));
+	};
+
 	useEffect(() => {
-		if (cartStore.isRequestDone) {
-			if (cartStore?.statusCode >= 200 && cartStore?.statusCode < 300) {
-				toast.success(cartStore.data);
-			} else {
-				toast.error(cartStore.statusText);
-			}
-		}
-	}, [cartStore?.statusCode, cartStore.isRequestDone]);
+		dispatch(resetCartSliceState());
+	}, []);
 
 	useEffect(() => {
 		// returned function will be called on component unmount
@@ -33,6 +32,17 @@ const MyCart = () => {
 			dispatch(resetCartSliceState());
 		};
 	}, []);
+
+	// toast
+	useEffect(() => {
+		if (cartStore.isRequestDone) {
+			if (cartStore?.statusCode >= 200 && cartStore?.statusCode < 300) {
+				toast.success(cartStore.data);
+			} else {
+				toast.error(cartStore.error);
+			}
+		}
+	}, [cartStore?.statusCode, cartStore.isRequestDone]);
 
 	// get user cart
 	useEffect(() => {
@@ -101,10 +111,18 @@ const MyCart = () => {
 	};
 
 	return (
-		<div>
+		<div className="mb-40">
 			{renderCart()}
-			<div className="bg-secondary text-white p-5">
-				TOTAL: ₱<span className="text-xl">{cartTotal}</span>
+			<div className="bg-secondary text-white p-5 grid grid-flow-col">
+				<div>
+					TOTAL: ₱<span className="text-xl">{cartTotal}</span>
+				</div>
+				<CustomButton
+					text={"Check Out"}
+					variant={"light"}
+					isLoading={cartStore.isLoading}
+					onClick={onCheckOut}
+				/>
 			</div>
 			<ToastContainer />
 		</div>

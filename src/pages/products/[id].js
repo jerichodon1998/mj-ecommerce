@@ -84,9 +84,7 @@ const ProductPage = () => {
 									);
 								}
 							})
-							.catch((error) => {
-								console.log(error);
-							});
+							.catch((error) => {});
 					} else {
 						dispatch(getUserCart(signinStore.data._id));
 					}
@@ -106,8 +104,10 @@ const ProductPage = () => {
 		if (cartStore.isRequestDone) {
 			if (cartStore?.statusCode >= 200 && cartStore?.statusCode < 300) {
 				toast.success(cartStore.data);
+				dispatch(resetCartSliceState());
 			} else {
 				toast.error(cartStore.statusText);
+				dispatch(resetCartSliceState());
 			}
 		}
 	}, [cartStore?.statusCode, cartStore.isRequestDone]);
@@ -138,7 +138,6 @@ const ProductPage = () => {
 						setPhotosLoading(false);
 					})
 					.catch((error) => {
-						console.log(error);
 						setPhotosLoading(false);
 					});
 			});

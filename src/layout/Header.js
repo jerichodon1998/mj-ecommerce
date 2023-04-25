@@ -12,6 +12,7 @@ import SignoutButton from "@/components/authentication_registration/SignoutButto
 import CartComponent from "@/components/cart/CartComponent";
 import StoreComponent from "@/components/store/StoreComponent";
 import MenuIcon from "@mui/icons-material/Menu";
+import ShippedComponent from "@/components/cart/ShippedIcon";
 
 const Header = () => {
 	const router = useRouter();
@@ -41,6 +42,7 @@ const Header = () => {
 						<AccountNavIcon />
 						<StoreComponent />
 						<CartComponent />
+						<ShippedComponent />
 						<SignoutButton />
 					</div>
 				);

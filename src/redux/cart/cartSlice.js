@@ -11,35 +11,47 @@ const initialState = {
 	error: null,
 };
 
-export const createCart = createAsyncThunk("/createCart", async (uid, { rejectWithValue }) => {
-	try {
-		const response = await axiosInstance.post(`/cart/${uid}`);
-		return response;
-	} catch (error) {
-		return rejectWithValue(error.response);
+export const createCart = createAsyncThunk(
+	"/createCart",
+	async (uid, { rejectWithValue }) => {
+		try {
+			const response = await axiosInstance.post(`/cart/${uid}`);
+			return response;
+		} catch (error) {
+			return rejectWithValue(error.response);
+		}
 	}
-});
+);
 
-export const getUserCart = createAsyncThunk("/getUserCart", async (uid, { rejectWithValue }) => {
-	try {
-		const response = await axiosInstance.get(`/cart/${uid}`);
-		return response;
-	} catch (error) {
-		return rejectWithValue(error.response);
+export const getUserCart = createAsyncThunk(
+	"/getUserCart",
+	async (uid, { rejectWithValue }) => {
+		try {
+			const response = await axiosInstance.get(`/cart/${uid}`);
+			return response;
+		} catch (error) {
+			return rejectWithValue(error.response);
+		}
 	}
-});
+);
 
-export const addToCart = createAsyncThunk("/addToCart", async (data, { rejectWithValue }) => {
-	// add to cart
-	try {
-		const response = await axiosInstance.put(`/cart/${data.uid}/addToCart/${data.productId}`, {
-			quantity: data.quantity,
-		});
-		return response;
-	} catch (error) {
-		return rejectWithValue(error.response);
+export const addToCart = createAsyncThunk(
+	"/addToCart",
+	async (data, { rejectWithValue }) => {
+		// add to cart
+		try {
+			const response = await axiosInstance.put(
+				`/cart/${data.uid}/addToCart/${data.productId}`,
+				{
+					quantity: data.quantity,
+				}
+			);
+			return response;
+		} catch (error) {
+			return rejectWithValue(error.response);
+		}
 	}
-});
+);
 
 export const removeFromCart = createAsyncThunk(
 	"/removeFromCart",
@@ -48,6 +60,18 @@ export const removeFromCart = createAsyncThunk(
 			const response = await axiosInstance.put(
 				`cart/${data.uid}/removeFromCart/${data.cartItemId}`
 			);
+			return response;
+		} catch (error) {
+			return rejectWithValue(error.response);
+		}
+	}
+);
+
+export const checkOutCart = createAsyncThunk(
+	"/checkOutCart",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axiosInstance.put(`cart/checkOut/${data.uid}`);
 			return response;
 		} catch (error) {
 			return rejectWithValue(error.response);
@@ -72,13 +96,23 @@ export const cartSlice = createSlice({
 	extraReducers: (builder) => {
 		builder
 			.addMatcher(
-				isAnyOf(getUserCart.pending, addToCart.pending, removeFromCart.pending),
+				isAnyOf(
+					checkOutCart.pending,
+					getUserCart.pending,
+					addToCart.pending,
+					removeFromCart.pending
+				),
 				(state, action) => {
 					state.isLoading = true;
 				}
 			)
 			.addMatcher(
-				isAnyOf(getUserCart.fulfilled, addToCart.fulfilled, removeFromCart.fulfilled),
+				isAnyOf(
+					checkOutCart.fulfilled,
+					getUserCart.fulfilled,
+					addToCart.fulfilled,
+					removeFromCart.fulfilled
+				),
 				(state, action) => {
 					state.data = action.payload?.data;
 					state.isLoading = false;
@@ -89,7 +123,12 @@ export const cartSlice = createSlice({
 				}
 			)
 			.addMatcher(
-				isAnyOf(getUserCart.rejected, addToCart.rejected, removeFromCart.rejected),
+				isAnyOf(
+					checkOutCart.rejected,
+					getUserCart.rejected,
+					addToCart.rejected,
+					removeFromCart.rejected
+				),
 				(state, action) => {
 					state.data = null;
 					state.statusCode = action.payload?.status;

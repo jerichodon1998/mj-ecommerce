@@ -62,10 +62,17 @@ const AdminProductCard = ({ product }) => {
 	) : (
 		<div className="w-full bg-secondary/25 shadow-md shadow-secondary/25 rounded-md text-primary grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-5">
 			<div
-				className="w-full h-48 relative cursor-pointer col-span-1"
+				className="max-w-sm h-48 relative cursor-pointer col-span-1"
 				onClick={pushToProduct}
 			>
-				{renderImage ? <Image src={renderImage} alt={name} fill /> : null}
+				{renderImage ? (
+					<Image
+						className="flex justify-center items-center"
+						src={renderImage}
+						alt={name}
+						fill
+					/>
+				) : null}
 				{pageLoad ? <Spinner className={"m-auto"} /> : null}
 			</div>
 			<div className="grid col-span-1">
@@ -99,8 +106,8 @@ const AdminProductCard = ({ product }) => {
 					<span className="text-secondary">{price}</span>
 				</div>
 			</div>
-			<div className="w-56 col-span-1">
-				<div className="overflow-scroll overflow-x-hidden max-h-40 w-10/12">
+			<div className="min-w-56 col-span-1">
+				<div className="overflow-scroll overflow-x-hidden max-h-40 w-full ">
 					{description}
 				</div>
 			</div>

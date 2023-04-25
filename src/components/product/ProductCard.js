@@ -63,7 +63,7 @@ const ProductCard = ({ product }) => {
 					<div className="flex justify-between">
 						<div className="font-bold">stock: {stock}</div>
 						<div>
-							<span className="font-bold text-3xl leading-3">₱</span>
+							<span className="text-3xl leading-3">₱</span>
 							<span className="">{price}</span>
 						</div>
 					</div>

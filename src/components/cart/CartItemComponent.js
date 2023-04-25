@@ -33,9 +33,7 @@ const CartItemComponent = ({ itemId }) => {
 					if (response.data.cartItemsId.length == 0) {
 						axiosInstance
 							.delete(`/cart/${signinStore.data._id}`)
-							.catch((error) => {
-								console.log(error.response);
-							});
+							.catch((error) => {});
 					}
 				});
 		});
@@ -116,7 +114,7 @@ const CartItemComponent = ({ itemId }) => {
 						<div>Price: ₱ {productItem.price}</div>
 						<div>Quantity: {cartItem.quantity}</div>
 						<div>
-							Total: ${" "}
+							Total: ₱{" "}
 							<span className="text-xl text-secondary font-semibold">
 								{itemTotal.toFixed(2)}
 							</span>
