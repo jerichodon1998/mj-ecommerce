@@ -51,6 +51,7 @@ const Header = () => {
 					<div className="flex gap-4">
 						<AccountNavIcon />
 						<CartComponent />
+						<ShippedComponent />
 						<SignoutButton />
 					</div>
 				);
