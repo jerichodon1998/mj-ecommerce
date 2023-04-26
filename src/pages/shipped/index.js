@@ -16,7 +16,6 @@ const ShippedCart = () => {
 			axiosInstance
 				.get(`/cart/shipped/${signinStore.data._id}`)
 				.then((response) => {
-					console.log(response.data);
 					setShippedCarts(response.data);
 				})
 				.catch((err) => {});
