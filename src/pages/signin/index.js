@@ -35,7 +35,8 @@ const SigninPage = () => {
 
 	useEffect(() => {
 		setPageLoad(false);
-	}, [dispatch]);
+		dispatch(resetSigninState());
+	}, []);
 
 	useEffect(() => {
 		if (signinStore.isLoggedin) {
