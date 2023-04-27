@@ -10,7 +10,6 @@ const CartComponent = () => {
 	return (
 		<ShoppingCartIcon
 			className="cursor-pointer h-8 w-8"
-			fontSize="inherit"
 			onClick={onClickCart}
 		/>
 	);

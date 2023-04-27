@@ -85,7 +85,6 @@ const Header = () => {
 					</div>
 					<div className="hidden lg:flex">{renderOptions()}</div>
 					<MenuIcon
-						fontSize="inherit"
 						className="w-8 h-8 flex lg:hidden xl:hidden"
 						onClick={() => {
 							setShowMenu(!showMenu);
