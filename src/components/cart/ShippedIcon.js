@@ -11,7 +11,6 @@ const ShippedIcon = () => {
 	return (
 		<LocalShippingIcon
 			className="cursor-pointer h-8 w-8"
-			fontSize="inherit"
 			onClick={onClickShipping}
 		/>
 	);

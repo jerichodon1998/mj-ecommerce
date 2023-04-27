@@ -138,7 +138,7 @@ const Profile = () => {
 		} else if (profilePicture) {
 			return <Image src={profilePicture} alt="user photo" fill />;
 		} else {
-			return <PortraitIcon fontSize="inherit" className="w-32 h-32" />;
+			return <PortraitIcon className="w-32 h-32" />;
 		}
 	};
 
@@ -219,7 +219,6 @@ const Profile = () => {
 								<>
 									<CloseIcon
 										onClick={(e) => setNewImage(null)}
-										fontSize="inherit"
 										className="p-2 w-8 h-8 cursor-pointer"
 									/>
 									<CustomButton

@@ -202,10 +202,7 @@ const ProductPage = () => {
 							isLoading={cartStore.isLoading}
 							onClick={onAddTocart}
 						>
-							<AddShoppingCartIcon
-								className="cursor-pointer h-8 w-8"
-								fontSize="inherit"
-							/>
+							<AddShoppingCartIcon className="cursor-pointer h-8 w-8" />
 							Add to cart
 						</CustomButton>
 						<div className="flex justify-center items-center">

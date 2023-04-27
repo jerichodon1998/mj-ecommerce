@@ -14,7 +14,6 @@ const StoreComponent = () => {
 		<>
 			<StorefrontIcon
 				className="cursor-pointer h-8 w-8"
-				fontSize="inherit"
 				onClick={onClickStore}
 			/>
 		</>
