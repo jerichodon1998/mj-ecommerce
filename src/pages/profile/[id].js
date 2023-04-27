@@ -52,7 +52,12 @@ const Profile = () => {
 				toast.error(profileStore.statusText);
 			}
 		}
-	}, [profileStore?.statusCode, profileStore.isRequestDone]);
+	}, [
+		profileStore?.statusCode,
+		profileStore.isRequestDone,
+		profileStore.data,
+		profileStore.statusText,
+	]);
 
 	// fetch user
 	useEffect(() => {

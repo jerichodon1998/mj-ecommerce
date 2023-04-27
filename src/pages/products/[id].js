@@ -97,7 +97,7 @@ const ProductPage = () => {
 		return () => {
 			dispatch(resetCartSliceState());
 		};
-	}, []);
+	}, [dispatch]);
 
 	// toast
 	useEffect(() => {
@@ -110,7 +110,12 @@ const ProductPage = () => {
 				dispatch(resetCartSliceState());
 			}
 		}
-	}, [cartStore?.statusCode, cartStore.isRequestDone]);
+	}, [
+		cartStore?.statusCode,
+		cartStore.isRequestDone,
+		cartStore.statusText,
+		cartStore.data,
+	]);
 
 	// get product
 	useEffect(() => {
