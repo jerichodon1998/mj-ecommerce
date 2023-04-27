@@ -111,6 +111,7 @@ const ProductPage = () => {
 			}
 		}
 	}, [
+		dispatch,
 		cartStore?.statusCode,
 		cartStore.isRequestDone,
 		cartStore.statusText,
