@@ -85,7 +85,7 @@ const Header = () => {
 					</div>
 					<div className="hidden lg:flex">{renderOptions()}</div>
 					<MenuIcon
-						className="w-8 h-8 flex lg:invisible xl:invisible"
+						className="w-8 h-8 flex lg:invisible lg:hidden xl:hidden xl:invisible"
 						onClick={() => {
 							setShowMenu(!showMenu);
 						}}
