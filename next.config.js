@@ -2,7 +2,7 @@
 const nextConfig = {
 	reactStrictMode: true,
 	images: {
-		domains: ["skillicons.dev"],
+		domains: ["skillicons.dev", "https://mj-ecommerce.vercel.app"],
 		dangerouslyAllowSVG: true,
 	},
 };
