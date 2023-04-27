@@ -106,7 +106,7 @@ const MyCart = () => {
 				</div>
 			);
 		} else {
-			return <div>{error}</div>;
+			return <div>{error.data}</div>;
 		}
 	};
 
