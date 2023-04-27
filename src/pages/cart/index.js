@@ -24,14 +24,14 @@ const MyCart = () => {
 
 	useEffect(() => {
 		dispatch(resetCartSliceState());
-	}, []);
+	}, [dispatch]);
 
 	useEffect(() => {
 		// returned function will be called on component unmount
 		return () => {
 			dispatch(resetCartSliceState());
 		};
-	}, []);
+	}, [dispatch]);
 
 	// toast
 	useEffect(() => {
@@ -42,7 +42,12 @@ const MyCart = () => {
 				toast.error(cartStore.error);
 			}
 		}
-	}, [cartStore?.statusCode, cartStore.isRequestDone]);
+	}, [
+		cartStore?.statusCode,
+		cartStore.isRequestDone,
+		cartStore.data,
+		cartStore.error,
+	]);
 
 	// get user cart
 	useEffect(() => {
@@ -106,7 +111,7 @@ const MyCart = () => {
 				</div>
 			);
 		} else {
-			return <div>{error.data}</div>;
+			return <div>{error?.data}</div>;
 		}
 	};
 

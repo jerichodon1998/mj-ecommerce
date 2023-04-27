@@ -38,7 +38,7 @@ const Store = () => {
 	// reset state
 	useEffect(() => {
 		dispatch(resetProductState());
-	}, []);
+	}, [dispatch]);
 
 	// toast
 	useEffect(() => {
@@ -49,7 +49,12 @@ const Store = () => {
 				toast.error(productStore.statusText);
 			}
 		}
-	}, [productStore?.statusCode, productStore.isRequestDone]);
+	}, [
+		productStore?.statusCode,
+		productStore.isRequestDone,
+		productStore.data,
+		productStore.statusText,
+	]);
 	const renderProducts = () => {
 		return (
 			<div className="grid place-items-center grid-flow-row gap-8">
