@@ -41,7 +41,7 @@ const Profile = () => {
 		return () => {
 			dispatch(resetProfileState());
 		};
-	}, []);
+	}, [dispatch]);
 
 	// toast
 	useEffect(() => {
