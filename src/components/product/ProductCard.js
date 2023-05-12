@@ -42,7 +42,7 @@ const ProductCard = ({ product }) => {
 	}, [imagesId]);
 
 	return (
-		<div className="w-64 h-96 bg-secondary  shadow-lg shadow-secondary/25 rounded-md justify-center items-center grid grid-flow-row text-white/80">
+		<div className="w-64 h-96 border-2 border-primary/5 shadow-lg rounded-md justify-center items-center grid grid-flow-row ">
 			<div
 				className="w-56 h-48 relative cursor-pointer"
 				onClick={pushToProduct}
