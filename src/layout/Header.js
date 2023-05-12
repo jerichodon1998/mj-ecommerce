@@ -115,6 +115,10 @@ const Header = () => {
 			>
 				{renderOptions()}
 			</div>
+			<div className="text-xl">
+				Note: This is not a real-time app, you may have to reload the page to
+				see your update changes
+			</div>
 		</>
 	);
 };
