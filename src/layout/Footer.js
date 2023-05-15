@@ -6,7 +6,7 @@ const Footer = () => {
 	const year = new Date().getFullYear();
 	const iconStyle = "cursor-pointer";
 	return (
-		<div className="bg-primary fixed bottom-0 h-24 md:h-32 w-full items-center px-5 text-white grid grid-flow-col">
+		<div className="bg-primary mt-auto h-24 md:h-32 w-full items-center px-5 text-white grid grid-flow-col">
 			<div className="text-center">
 				<span className="text-lg">&copy; </span>
 				copyright {year} Mark Jericho Manilag.
