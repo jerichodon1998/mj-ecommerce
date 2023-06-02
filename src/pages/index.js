@@ -11,20 +11,26 @@ export default function Home() {
 	const [pageLoad, setPageLoad] = useState(false);
 	const [pages, setPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
+	const [isServerSleeping, setIsServerSleeping] = useState(false);
 
 	useEffect(() => {
+		const timeout = setTimeout(() => {
+			setIsServerSleeping(true);
+		}, 5000);
 		setCurrentPage(router.query.page);
+		setPageLoad(true);
 		if (currentPage) {
-			setPageLoad(true);
 			axiosInstance
 				.get(`products/?page=${currentPage}`)
 				.then((response) => {
 					setProducts(response.data.products);
 					setPages(response.data.pages);
 					setPageLoad(false);
+					clearTimeout(timeout);
 				})
 				.catch((error) => {
 					setPageLoad(false);
+					clearTimeout(timeout);
 				});
 		}
 	}, [router, currentPage]);
@@ -40,7 +46,14 @@ export default function Home() {
 	};
 
 	return pageLoad ? (
-		<Spinner className={"w-64 h-64 m-auto"} />
+		<>
+			<Spinner className={"w-64 h-64 m-auto"} />
+			{isServerSleeping ? (
+				<p className="text-2xl text-center mt-2">
+					Please wait, server is sleeping...
+				</p>
+			) : null}
+		</>
 	) : (
 		<>
 			{renderProducts()}
