@@ -8,6 +8,7 @@ import AdminCreateProductModal from "@/components/product/AdminCreateProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { resetProductState } from "@/redux/product/productSlice";
+import Head from "next/head";
 
 const Store = () => {
 	const [products, setProducts] = useState(null);
@@ -78,6 +79,9 @@ const Store = () => {
 		<Spinner className={"w-64 h-64 m-auto"} />
 	) : (
 		<>
+			<Head>
+				<title>My Store</title>
+			</Head>
 			{renderPage()}
 			<Pagination_Component
 				currentpage={currentPage}
