@@ -138,7 +138,7 @@ const ProductPage = ({ product }) => {
 
 	return (
 		<>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 py-5 bg-secondary/10 gap-4">
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 py-5 bg-secondary/10 gap-4 shadow-xl border-none rounded-lg">
 				<div className="grid grid-flow-row col-span-1 gap-4">
 					<div className="w-full h-64 relative">
 						{photosLoading > 0 ? (
