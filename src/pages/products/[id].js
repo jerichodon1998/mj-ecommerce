@@ -15,8 +15,7 @@ import {
 import QuantityComponent from "@/components/quantity/QuantityComponent";
 import { ToastContainer, toast } from "react-toastify";
 
-const ProductPage = () => {
-	const [product, setProduct] = useState(null);
+const ProductPage = ({ product }) => {
 	const [selectedImage, setSeletedImage] = useState(0);
 	const [photosLoading, setPhotosLoading] = useState(true);
 	const [renderImages, setRenderImages] = useState([]);
@@ -25,7 +24,6 @@ const ProductPage = () => {
 	const dispatch = useDispatch();
 	const router = useRouter();
 
-	const { id } = router.query;
 	const signinStore = useSelector((state) => state.signinStore);
 	const cartStore = useSelector((state) => state.cartStore);
 
@@ -118,18 +116,6 @@ const ProductPage = () => {
 		cartStore.data,
 	]);
 
-	// get product
-	useEffect(() => {
-		if (id) {
-			axiosInstance
-				.get(`products/${id}`)
-				.then((response) => {
-					setProduct(response.data);
-				})
-				.catch((error) => console.log(error));
-		}
-	}, [id]);
-
 	// get product images
 	useEffect(() => {
 		setPhotosLoading(true);
@@ -218,6 +204,16 @@ const ProductPage = () => {
 			<ToastContainer />
 		</>
 	);
+};
+
+export const getServerSideProps = async (context) => {
+	const id = context.params?.id;
+	const response = await axiosInstance.get(`products/${id}`);
+	return {
+		props: {
+			product: response.data,
+		},
+	};
 };
 
 export default ProductPage;

@@ -5,35 +5,13 @@ import Spinner from "@/components/loader/Spinner";
 import { useRouter } from "next/router";
 import Pagination_Component from "@/components/pagination/Pagination_Component";
 
-export default function Home() {
+export default function Home({ products, pages }) {
 	const router = useRouter();
-	const [products, setProducts] = useState();
-	const [pageLoad, setPageLoad] = useState(false);
-	const [pages, setPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
-	const [isServerSleeping, setIsServerSleeping] = useState(false);
 
 	useEffect(() => {
-		const timeout = setTimeout(() => {
-			setIsServerSleeping(true);
-		}, 5000);
 		setCurrentPage(router.query.page);
-		setPageLoad(true);
-		if (currentPage) {
-			axiosInstance
-				.get(`products/?page=${currentPage}`)
-				.then((response) => {
-					setProducts(response.data.products);
-					setPages(response.data.pages);
-					setPageLoad(false);
-					clearTimeout(timeout);
-				})
-				.catch((error) => {
-					setPageLoad(false);
-					clearTimeout(timeout);
-				});
-		}
-	}, [router, currentPage]);
+	}, [router]);
 
 	const renderProducts = () => {
 		return (
@@ -45,16 +23,7 @@ export default function Home() {
 		);
 	};
 
-	return pageLoad ? (
-		<>
-			<Spinner className={"w-64 h-64 m-auto"} />
-			{isServerSleeping ? (
-				<p className="text-2xl text-center mt-2">
-					Please wait, server is sleeping...
-				</p>
-			) : null}
-		</>
-	) : (
+	return (
 		<>
 			{renderProducts()}
 			<div>
@@ -67,3 +36,15 @@ export default function Home() {
 		</>
 	);
 }
+
+export const getServerSideProps = async (context) => {
+	const pageNumber = context.query?.page;
+	// get products
+	const response = await axiosInstance.get(`products/?page=${pageNumber}`);
+	return {
+		props: {
+			products: response.data?.products,
+			pages: response.data?.pages,
+		},
+	};
+};
