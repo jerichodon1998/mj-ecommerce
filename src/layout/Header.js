@@ -111,7 +111,7 @@ const Header = () => {
 			<div
 				className={` ${
 					showMenu ? "bg-primary w-full" : "hidden"
-				} absolute z-50 flex gap-8 justify-center text-white p-5 lg:hidden`}
+				} relative z-50 flex gap-8 justify-center text-white p-5 lg:hidden`}
 			>
 				{renderOptions()}
 			</div>
