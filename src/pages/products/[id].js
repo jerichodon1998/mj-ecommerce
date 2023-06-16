@@ -14,6 +14,7 @@ import {
 } from "@/redux/cart/cartSlice";
 import QuantityComponent from "@/components/quantity/QuantityComponent";
 import { ToastContainer, toast } from "react-toastify";
+import Head from "next/head";
 
 const ProductPage = ({ product }) => {
 	const [selectedImage, setSeletedImage] = useState(0);
@@ -138,7 +139,10 @@ const ProductPage = ({ product }) => {
 
 	return (
 		<>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 py-5 bg-secondary/10 gap-4 shadow-xl border-none rounded-lg">
+			<Head>
+				<title>{product?.name}</title>
+			</Head>
+			<div className="grid flex-wrap grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 px-5 py-5 bg-secondary/10 gap-4 shadow-xl border-none rounded-lg">
 				<div className="grid grid-flow-row col-span-1 gap-4">
 					<div className="w-full h-64 relative">
 						{photosLoading > 0 ? (
@@ -155,30 +159,30 @@ const ProductPage = ({ product }) => {
 						{photosLoading ? <Spinner className={"m-auto"} /> : showImages()}
 					</div>
 				</div>
-				<div className="grid grid-flow-row gap-2">
-					<div className="bg-white rounded-sm p-1">
+				<div>
+					<div className="bg-white rounded-lg my-2 p-1">
 						Price:
 						{new Intl.NumberFormat("php", {
 							style: "currency",
 							currency: "PHP",
 						}).format(product?.price)}
 					</div>
-					<div className="bg-white rounded-sm p-1">
+					<div className="bg-white rounded-lg my-2 p-1">
 						Brand:
 						{product?.brand}
 					</div>
-					<div className="bg-white rounded-sm p-1">{product?.name}</div>
-				</div>
-				<div className="grid grid-flow-row gap-2">
-					<div className="bg-white rounded-sm p-1">
+					<div className="bg-white rounded-lg my-2 p-1">{product?.name}</div>
+					<div className="bg-white rounded-lg my-2 p-1">
 						Stock:
 						{product?.stock}
 					</div>
-					<div className="bg-white rounded-sm p-1 overflow-scroll overflow-x-hidden h-64">
-						{product?.description}
-					</div>
-					<div className="bg-white rounded-sm p-1">
+					<div className="bg-white rounded-lg my-2 p-1">
 						Rating:{product?.rating}
+					</div>
+				</div>
+				<div>
+					<div className="bg-white rounded-lg p-1 overflow-scroll overflow-x-hidden h-64">
+						{product?.description}
 					</div>
 				</div>
 				<div className="flex justify-center items-center">
