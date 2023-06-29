@@ -46,7 +46,7 @@ const ShippedComponent = ({ cart }) => {
 		);
 	};
 	return (
-		<div className="grid gap-2 xs:grid-flow-row bg-primary p-5 text-white">
+		<div className="grid gap-2 xs:grid-flow-row bg-primary/75 p-5 text-white">
 			{isLoading ? <Spinner /> : renderCart()}
 		</div>
 	);
