@@ -128,7 +128,7 @@ const Header = () => {
 			>
 				{renderOptions()}
 			</div>
-			<div className="text-xl">
+			<div className="text-xl px-5 mb-5">
 				Note: This is not a real-time app, you may have to reload the page to
 				see your update changes
 			</div>
