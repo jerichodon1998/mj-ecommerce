@@ -6,20 +6,35 @@ const Footer = () => {
 	const year = new Date().getFullYear();
 	const iconStyle = "cursor-pointer";
 	return (
-		<div className="bg-primary mt-auto h-24 md:h-32 w-full items-center px-5 text-white grid grid-flow-col">
+		<div className="bg-primary mt-auto p-5 d:h-32 w-full px-5 text-white grid grid-flow-col">
 			<div className="text-center">
-				<span className="text-lg">&copy; </span>
-				copyright {year} Mark Jericho Manilag.
+				<span>&copy; </span>
+				copyright {year} Mark Jericho
 				<br />
 				All rights reserved.
 			</div>
-			<div className="grid grid-flow-row text-center">
+			<div className="flex flex-col text-center">
 				<div>Follow me on:</div>
-				<br />
 				<div>
-					<FacebookIcon className={iconStyle} color="white" fontSize="large" />
-					<TwitterIcon className={iconStyle} color="white" fontSize="large" />
-					<GitHubIcon className={iconStyle} color="white" fontSize="large" />
+					<a
+						href="https://www.facebook.com/markjericho.manilag.35"
+						target="_blank"
+					>
+						<FacebookIcon
+							className={iconStyle}
+							color="white"
+							fontSize="large"
+						/>
+					</a>
+					<a
+						href="https://www.facebook.com/markjericho.manilag.35"
+						target="_blank"
+					>
+						<TwitterIcon className={iconStyle} color="white" fontSize="large" />
+					</a>
+					<a href="https://twitter.com/jerichodon1998" target="_blank">
+						<GitHubIcon className={iconStyle} color="white" fontSize="large" />
+					</a>
 				</div>
 			</div>
 		</div>
