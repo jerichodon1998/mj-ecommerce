@@ -204,13 +204,13 @@ const Profile = () => {
 	const renderProfile = () => {
 		const userData = userProfile?.data;
 		return (
-			<div className="grid grid-cols-3 bg-tertiary/25 p-5 text-tertiary gap-4">
-				<div className="grid grid-flow-row gap-4">
+			<div className="grid sm:grid-cols-2 lg:grid-cols-3 bg-tertiary/25 p-5 text-tertiary gap-4">
+				<div className="grid sm:col-span-full lg:col-span-1">
 					<div className="grid grid-flow-row gap-4">
 						<div className="w-32 h-32 relative">{renderUserPhoto()}</div>
 						<div className="grid grid-cols-4 gap-4">
 							<input
-								className="cursor-pointer"
+								className="cursor-pointer col-span-full"
 								type="file"
 								accept="image/png, image/jpeg, image/jpg"
 								onChange={(e) => setNewImage(e.target.files[0])}
