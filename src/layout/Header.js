@@ -31,6 +31,7 @@ const Header = () => {
 
 	const pushToHome = (e) => {
 		e.preventDefault();
+		setShowMenu(false);
 		router.push("/");
 	};
 
@@ -39,28 +40,28 @@ const Header = () => {
 			if (signinStore?.data.role === "admin") {
 				return (
 					<div className="flex gap-4">
-						<AccountNavIcon />
-						<StoreComponent />
-						<CartComponent />
-						<ShippedComponent />
-						<SignoutButton />
+						<AccountNavIcon setShowMenu={setShowMenu} />
+						<StoreComponent setShowMenu={setShowMenu} />
+						<CartComponent setShowMenu={setShowMenu} />
+						<ShippedComponent setShowMenu={setShowMenu} />
+						<SignoutButton setShowMenu={setShowMenu} />
 					</div>
 				);
 			} else {
 				return (
 					<div className="flex gap-4">
-						<AccountNavIcon />
-						<CartComponent />
-						<ShippedComponent />
-						<SignoutButton />
+						<AccountNavIcon setShowMenu={setShowMenu} />
+						<CartComponent setShowMenu={setShowMenu} />
+						<ShippedComponent setShowMenu={setShowMenu} />
+						<SignoutButton setShowMenu={setShowMenu} />
 					</div>
 				);
 			}
 		} else {
 			return (
 				<div className="flex gap-4">
-					<SigninButton />
-					<SignupButton />
+					<SigninButton setShowMenu={setShowMenu} />
+					<SignupButton setShowMenu={setShowMenu} />
 				</div>
 			);
 		}
@@ -76,10 +77,22 @@ const Header = () => {
 						<div className={navStyle} onClick={pushToHome}>
 							Home
 						</div>
-						<div className={navStyle} onClick={(e) => router.push("/about")}>
+						<div
+							className={navStyle}
+							onClick={(e) => {
+								setShowMenu(false);
+								router.push("/about");
+							}}
+						>
 							About
 						</div>
-						<div className={navStyle} onClick={(e) => router.push("/contact")}>
+						<div
+							className={navStyle}
+							onClick={(e) => {
+								setShowMenu(false);
+								router.push("/contact");
+							}}
+						>
 							Contact
 						</div>
 					</div>

@@ -1,10 +1,11 @@
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import { useRouter } from "next/router";
 
-const ShippedIcon = () => {
+const ShippedIcon = ({ setShowMenu }) => {
 	const router = useRouter();
 
 	const onClickShipping = () => {
+		setShowMenu(false);
 		router.push("/shipped");
 	};
 
