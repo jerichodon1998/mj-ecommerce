@@ -23,10 +23,10 @@ const AdminProductCard = ({ product }) => {
 		currency,
 		description,
 		imagesId,
-		ownerId,
+		// ownerId, not currently used
 		name,
 		price,
-		rating,
+		// rating, not currently used
 		stock,
 	} = product;
 
@@ -52,7 +52,7 @@ const AdminProductCard = ({ product }) => {
 				setRenderImage(createObjectUrlImage(response.data));
 				setPageLoad(false);
 			})
-			.catch((error) => {
+			.catch(() => {
 				setPageLoad(false);
 			});
 	}, [imagesId]);

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { axiosInstance } from "../api/axiosInstance";
-import { useRouter } from "next/router";
 import Spinner from "@/components/loader/Spinner";
 import ShippedComponent from "@/components/cart/ShippedComponent";
 
@@ -9,7 +8,6 @@ const ShippedCart = () => {
 	const signinStore = useSelector((state) => state.signinStore);
 	const [shippedCarts, setShippedCarts] = useState([]);
 	const [pageLoad, setPageLoad] = useState(true);
-	const router = useRouter();
 	useEffect(() => {
 		if (signinStore.isLoggedin) {
 			setPageLoad(false);
@@ -18,7 +16,7 @@ const ShippedCart = () => {
 				.then((response) => {
 					setShippedCarts(response.data);
 				})
-				.catch((err) => {});
+				.catch(() => {});
 		} else {
 			setPageLoad(false);
 		}

@@ -24,23 +24,29 @@ export const signinUser = createAsyncThunk(
 	}
 );
 
-export const signoutuser = createAsyncThunk("/signoutuser", async (data, { rejectWithValue }) => {
-	try {
-		const response = await axiosInstance.post("/signout");
-		return response;
-	} catch (error) {
-		return rejectWithValue(error.response);
+export const signoutuser = createAsyncThunk(
+	"/signoutuser",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axiosInstance.post("/signout");
+			return response;
+		} catch (error) {
+			return rejectWithValue(error.response);
+		}
 	}
-});
+);
 
-export const persistUser = createAsyncThunk("/persistUser", async (data, { rejectWithValue }) => {
-	try {
-		const response = await axiosInstance.get("/persistuser");
-		return response;
-	} catch (error) {
-		return rejectWithValue(error.response);
+export const persistUser = createAsyncThunk(
+	"/persistUser",
+	async (data, { rejectWithValue }) => {
+		try {
+			const response = await axiosInstance.get("/persistuser");
+			return response;
+		} catch (error) {
+			return rejectWithValue(error.response);
+		}
 	}
-});
+);
 
 export const signinSlice = createSlice({
 	name: "signin",
@@ -59,29 +65,35 @@ export const signinSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addMatcher(isAnyOf(signinUser.pending, persistUser.pending), (state, action) => {
+			.addMatcher(isAnyOf(signinUser.pending, persistUser.pending), (state) => {
 				state.isLoading = true;
 			})
-			.addMatcher(isAnyOf(signinUser.fulfilled, persistUser.fulfilled), (state, action) => {
-				state.data = action.payload?.data;
-				state.statusCode = action.payload?.status;
-				state.statusText = action.payload?.statusText;
-				state.error = null;
-				state.isRequestDone = true;
-				state.isLoading = false;
-				state.isSuccess = true;
-				state.isLoggedin = true;
-			})
-			.addMatcher(isAnyOf(signinUser.rejected, persistUser.rejected), (state, action) => {
-				state.data = null;
-				state.statusCode = action.payload?.status;
-				state.statusText = action.payload?.statusText;
-				state.error = action.payload?.data;
-				state.isRequestDone = true;
-				state.isLoading = false;
-			});
+			.addMatcher(
+				isAnyOf(signinUser.fulfilled, persistUser.fulfilled),
+				(state, action) => {
+					state.data = action.payload?.data;
+					state.statusCode = action.payload?.status;
+					state.statusText = action.payload?.statusText;
+					state.error = null;
+					state.isRequestDone = true;
+					state.isLoading = false;
+					state.isSuccess = true;
+					state.isLoggedin = true;
+				}
+			)
+			.addMatcher(
+				isAnyOf(signinUser.rejected, persistUser.rejected),
+				(state, action) => {
+					state.data = null;
+					state.statusCode = action.payload?.status;
+					state.statusText = action.payload?.statusText;
+					state.error = action.payload?.data;
+					state.isRequestDone = true;
+					state.isLoading = false;
+				}
+			);
 		builder
-			.addMatcher(isAnyOf(signoutuser.pending), (state, action) => {
+			.addMatcher(isAnyOf(signoutuser.pending), (state) => {
 				state.isLoading = true;
 			})
 			.addMatcher(isAnyOf(signoutuser.fulfilled), (state, action) => {

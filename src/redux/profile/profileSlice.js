@@ -15,11 +15,15 @@ export const updateUserProfile = createAsyncThunk(
 	"/updateUserProfile",
 	async (credentials, { rejectWithValue }) => {
 		try {
-			const response = await axiosInstance.put(`/profile/${credentials.uid}`, credentials, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			});
+			const response = await axiosInstance.put(
+				`/profile/${credentials.uid}`,
+				credentials,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				}
+			);
 			return response;
 		} catch (error) {
 			return rejectWithValue(error.response);
@@ -43,7 +47,7 @@ export const updateUserSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addMatcher(isAnyOf(updateUserProfile.pending), (state, action) => {
+			.addMatcher(isAnyOf(updateUserProfile.pending), (state) => {
 				state.isLoading = true;
 			})
 			.addMatcher(isAnyOf(updateUserProfile.fulfilled), (state, action) => {

@@ -12,14 +12,14 @@ const ProductCard = ({ product }) => {
 
 	const {
 		_id,
-		category,
-		currency,
+		// category, no current use just yet
+		// currency,
 		description,
 		imagesId,
-		ownerId,
+		// ownerId,
 		name,
 		price,
-		rating,
+		// rating,
 		stock,
 	} = product;
 
@@ -36,7 +36,7 @@ const ProductCard = ({ product }) => {
 				setRenderImage(createObjectUrlImage(response.data));
 				setPageLoad(false);
 			})
-			.catch((error) => {
+			.catch(() => {
 				setPageLoad(false);
 			});
 	}, [imagesId]);

@@ -39,7 +39,7 @@ export const signupSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addMatcher(isAnyOf(registerUser.pending), (state, action) => {
+			.addMatcher(isAnyOf(registerUser.pending), (state) => {
 				state.isLoading = true;
 			})
 			.addMatcher(isAnyOf(registerUser.fulfilled), (state, action) => {

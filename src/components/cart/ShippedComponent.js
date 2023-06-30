@@ -11,26 +11,23 @@ const ShippedComponent = ({ cart }) => {
 		let total = 0;
 		if (cart) {
 			cart.cartItemsId.map((itemId) => {
-				axiosInstance
-					.get(`/cartitems/${itemId}`)
-					.then((response) => {
-						const cartItem = response.data;
-						if (cartItem) {
-							axiosInstance
-								.get(`/products/${cartItem.productItemId}`)
-								.then((response) => {
-									const productItem = response.data;
-									if (productItem) {
-										total += cartItem.quantity * productItem.price;
-										setCartTotal(total);
-									}
-								})
-								.catch((err) => console.log(err));
+				axiosInstance.get(`/cartitems/${itemId}`).then((response) => {
+					const cartItem = response.data;
+					if (cartItem) {
+						axiosInstance
+							.get(`/products/${cartItem.productItemId}`)
+							.then((response) => {
+								const productItem = response.data;
+								if (productItem) {
+									total += cartItem.quantity * productItem.price;
+									setCartTotal(total);
+								}
+							})
+							.catch();
 
-							setIsloading(false);
-						}
-					})
-					.catch((err) => console.log(err));
+						setIsloading(false);
+					}
+				});
 			});
 		} else {
 			setIsloading(false);

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { axiosInstance } from "../api/axiosInstance";
 import Spinner from "@/components/loader/Spinner";
 import { createObjectUrlImage } from "@/helper/createObjectUrlImage";
@@ -87,7 +87,7 @@ const Profile = () => {
 					setProfilePicture(createObjectUrlImage(response.data));
 					setIsPhotoLoading(false);
 				})
-				.catch((error) => {
+				.catch(() => {
 					setIsPhotoLoading(false);
 				});
 		}
@@ -218,7 +218,7 @@ const Profile = () => {
 							{newImage ? (
 								<>
 									<CloseIcon
-										onClick={(e) => setNewImage(null)}
+										onClick={() => setNewImage(null)}
 										className="p-2 w-8 h-8 cursor-pointer"
 									/>
 									<CustomButton

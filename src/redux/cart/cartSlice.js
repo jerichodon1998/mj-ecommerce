@@ -102,7 +102,7 @@ export const cartSlice = createSlice({
 					addToCart.pending,
 					removeFromCart.pending
 				),
-				(state, action) => {
+				(state) => {
 					state.isLoading = true;
 				}
 			)

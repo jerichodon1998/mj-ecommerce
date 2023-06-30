@@ -76,7 +76,7 @@ export const productSlice = createSlice({
 					createProduct.pending,
 					deleteProduct.pending
 				),
-				(state, action) => {
+				(state) => {
 					state.isLoading = true;
 				}
 			)

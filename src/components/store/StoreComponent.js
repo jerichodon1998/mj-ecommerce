@@ -1,7 +1,6 @@
 import StorefrontIcon from "@mui/icons-material/Storefront";
 
 import { useRouter } from "next/router";
-import { useState } from "react";
 
 const StoreComponent = ({ setShowMenu }) => {
 	const router = useRouter();

@@ -5,7 +5,6 @@ import {
 	resetSigninState,
 	signoutuser,
 } from "@/redux/authentitcationRegistration/signinSlice";
-import { useEffect } from "react";
 
 const SignoutButton = ({ setShowMenu }) => {
 	const router = useRouter();
