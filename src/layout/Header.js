@@ -37,7 +37,7 @@ const Header = () => {
 
 	const renderOptions = () => {
 		if (signinStore?.isLoggedin) {
-			if (signinStore?.data.role === "admin") {
+			if (signinStore?.data?.role?.includes("admin")) {
 				return (
 					<div className="flex gap-4">
 						<AccountNavIcon setShowMenu={setShowMenu} />

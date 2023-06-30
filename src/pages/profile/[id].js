@@ -145,15 +145,17 @@ const Profile = () => {
 	const editAccount = () => {
 		return (
 			<div className="bg-white rounded-md p-5 grid grid-rows-4">
-				<div className={`${dataStyle} row-span-1`}>
-					Edit account{" "}
-					<span
-						className="text-blue-700 text-base font-normal underline cursor-pointer"
-						onClick={changeAllow}
-					>
-						change
-					</span>
-				</div>
+				{signinStore.data?._id === uid ? (
+					<div className={`${dataStyle} row-span-1`}>
+						Edit account{" "}
+						<span
+							className="text-blue-700 text-base font-normal underline cursor-pointer"
+							onClick={changeAllow}
+						>
+							change
+						</span>
+					</div>
+				) : null}
 				<form
 					className="row-span-3 grid grid-flow-row gap-4"
 					onSubmit={onProfileEditSubmit}
