@@ -1,7 +1,6 @@
 import ProductCard from "@/components/product/ProductCard";
 import { useEffect, useState } from "react";
 import { axiosInstance } from "./api/axiosInstance";
-import Spinner from "@/components/loader/Spinner";
 import { useRouter } from "next/router";
 import Pagination_Component from "@/components/pagination/Pagination_Component";
 

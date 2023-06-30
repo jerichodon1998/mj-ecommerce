@@ -33,7 +33,7 @@ const CartItemComponent = ({ itemId }) => {
 					if (response.data.cartItemsId.length == 0) {
 						axiosInstance
 							.delete(`/cart/${signinStore.data._id}`)
-							.catch((error) => {});
+							.catch(() => {});
 					}
 				});
 		});
@@ -97,7 +97,7 @@ const CartItemComponent = ({ itemId }) => {
 				<div className="grid xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-flow-col gap-2">
 					<div className="grid grid-flow-row gap-2">
 						<div className="w-full lg:w-56 h-48 relative">
-							{renderImage ? (
+							{renderImage && isImageLoading === false ? (
 								<Image src={renderImage} alt="product image" fill />
 							) : (
 								<Spinner className={"m-auto"} />
@@ -105,7 +105,7 @@ const CartItemComponent = ({ itemId }) => {
 						</div>
 						<div
 							className="text-md lg:text-lg font-semibold text-secondary leading-3 cursor-pointer"
-							onClick={(e) => router.push(`/products/${productItem._id}`)}
+							onClick={() => router.push(`/products/${productItem._id}`)}
 						>
 							{productItem.name}
 						</div>

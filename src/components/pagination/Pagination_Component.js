@@ -18,7 +18,7 @@ const Pagination_Component = ({ totalpages, currentpage, pathname }) => {
 					return (
 						<button
 							key={page}
-							onClick={(e) => {
+							onClick={() => {
 								router.push({ pathname: pathname, query: { page: page } });
 							}}
 							className="p-1 m-1 h-8 bg-white border-2 border-primary text-primary"

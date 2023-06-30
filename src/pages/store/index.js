@@ -30,7 +30,7 @@ const Store = () => {
 					setPages(response.data.pages);
 					setPageLoad(false);
 				})
-				.catch((error) => {
+				.catch(() => {
 					setPageLoad(false);
 				});
 		}

@@ -79,7 +79,7 @@ const Header = () => {
 						</div>
 						<div
 							className={navStyle}
-							onClick={(e) => {
+							onClick={() => {
 								setShowMenu(false);
 								router.push("/about");
 							}}
@@ -88,7 +88,7 @@ const Header = () => {
 						</div>
 						<div
 							className={navStyle}
-							onClick={(e) => {
+							onClick={() => {
 								setShowMenu(false);
 								router.push("/contact");
 							}}

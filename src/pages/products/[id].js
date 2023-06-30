@@ -34,7 +34,7 @@ const ProductPage = ({ product }) => {
 				<div
 					key={product.imagesId[i]}
 					className="relative w-24 h-24"
-					onClick={(e) => setSeletedImage(i)}
+					onClick={() => setSeletedImage(i)}
 				>
 					<Image
 						src={image}
@@ -83,7 +83,7 @@ const ProductPage = ({ product }) => {
 									);
 								}
 							})
-							.catch((error) => {});
+							.catch(() => {});
 					} else {
 						dispatch(getUserCart(signinStore.data._id));
 					}
@@ -130,7 +130,7 @@ const ProductPage = ({ product }) => {
 						setRenderImages(() => [...images]);
 						setPhotosLoading(false);
 					})
-					.catch((error) => {
+					.catch(() => {
 						setPhotosLoading(false);
 					});
 			});

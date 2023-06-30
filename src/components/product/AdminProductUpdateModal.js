@@ -3,14 +3,14 @@ import CustomButton from "../buttons/CustomButton";
 import { useDispatch, useSelector } from "react-redux";
 import { resetProductState, updateProduct } from "@/redux/product/productSlice";
 
-const AdminProductUpdateModal = ({ product, image }) => {
+const AdminProductUpdateModal = ({ product }) => {
+	// this has an image prop but I currently have no use just yet
 	const [showModal, setShowModal] = useState(false);
 	const [name, setName] = useState(product.name);
 	const [description, setDescription] = useState(product.description);
 	const [price, setPrice] = useState(product.price);
 	const [category, setCategory] = useState(product.category);
 	const [stock, setStock] = useState(product.stock);
-	const [renderImage, setRenderImage] = useState(image);
 	const [brand, setBrand] = useState(product.brand);
 	const [currency, setCurrency] = useState(product.currency);
 
@@ -41,11 +41,14 @@ const AdminProductUpdateModal = ({ product, image }) => {
 		return (
 			<div
 				className="bg-black bg-opacity-50 z-50 justify-center items-center flex top-0 left-0 h-full w-full overflow-auto fixed"
-				onClick={(e) => {
+				onClick={() => {
 					setShowModal(false);
 				}}
 			>
-				<div className="bg-zinc-200 p-5 rounded-md" onClick={(e) => e.stopPropagation()}>
+				<div
+					className="bg-zinc-200 p-5 rounded-md"
+					onClick={(e) => e.stopPropagation()}
+				>
 					<form onSubmit={onSubmitUpdate}>
 						<div className="grid grid-flow-col gap-8">
 							<div className="grid gap-8">
@@ -139,7 +142,7 @@ const AdminProductUpdateModal = ({ product, image }) => {
 							<CustomButton
 								classname={`w-full`}
 								type={"submit"}
-								onClick={(e) => {
+								onClick={() => {
 									setShowModal(false);
 									// resetState();
 								}}
@@ -157,7 +160,11 @@ const AdminProductUpdateModal = ({ product, image }) => {
 	return (
 		<div>
 			{showModal ? showOptions() : null}
-			<CustomButton text={"Edit"} variant={"secondary"} onClick={(e) => setShowModal(true)} />
+			<CustomButton
+				text={"Edit"}
+				variant={"secondary"}
+				onClick={() => setShowModal(true)}
+			/>
 		</div>
 	);
 };

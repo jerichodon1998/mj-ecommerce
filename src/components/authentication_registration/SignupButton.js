@@ -7,7 +7,7 @@ const SignupButton = ({ setShowMenu }) => {
 		<CustomButton
 			text="Signup"
 			variant={"light"}
-			onClick={(e) => {
+			onClick={() => {
 				setShowMenu(false);
 				router.push("/signup");
 			}}
