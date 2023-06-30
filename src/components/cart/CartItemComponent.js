@@ -126,6 +126,12 @@ const CartItemComponent = ({ itemId }) => {
 							{productItem.description}
 						</div>
 					</div>
+				</div>
+			);
+		} else {
+			return (
+				<div>
+					{error?.data}{" "}
 					<div>
 						<CustomButton
 							text={"remove item"}
@@ -136,8 +142,6 @@ const CartItemComponent = ({ itemId }) => {
 					</div>
 				</div>
 			);
-		} else {
-			return <div>{error}</div>;
 		}
 	};
 
