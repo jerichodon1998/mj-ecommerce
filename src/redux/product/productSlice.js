@@ -43,10 +43,7 @@ export const deleteProduct = createAsyncThunk(
 	"/deleteProduct/",
 	async (data, { rejectWithValue }) => {
 		try {
-			const response = axiosInstance.delete(
-				`/products/${data.productId}`,
-				data
-			);
+			const response = axiosInstance.delete(`/products/${data.productId}`);
 			return response;
 		} catch (error) {
 			return rejectWithValue(error.response);
