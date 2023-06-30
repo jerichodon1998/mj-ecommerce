@@ -87,6 +87,9 @@ const MyCart = () => {
 									total += cartItem.quantity * productItem.price;
 									setCartTotal(total);
 								}
+							})
+							.catch((error) => {
+								console.error(error);
 							});
 					}
 				});
