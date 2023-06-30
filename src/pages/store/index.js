@@ -13,11 +13,18 @@ import Head from "next/head";
 const Store = () => {
 	const [products, setProducts] = useState(null);
 	const productStore = useSelector((state) => state.productStore);
+	const signinStore = useSelector((state) => state.signinStore);
 	const dispatch = useDispatch();
 	const router = useRouter();
 	const [pageLoad, setPageLoad] = useState(false);
 	const [pages, setPages] = useState(0);
 	const [currentPage, setCurrentPage] = useState(1);
+
+	useEffect(() => {
+		if (!signinStore?.data?.role?.includes("admin")) {
+			router.push("/");
+		}
+	}, [router, signinStore]);
 
 	useEffect(() => {
 		setCurrentPage(router.query.page);
