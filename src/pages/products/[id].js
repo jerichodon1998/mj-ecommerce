@@ -105,12 +105,13 @@ const ProductPage = ({ product }) => {
 				toast.success(cartStore.data);
 				dispatch(resetCartSliceState());
 			} else {
-				toast.error(cartStore.statusText);
+				toast.error(cartStore.error);
 				dispatch(resetCartSliceState());
 			}
 		}
 	}, [
 		dispatch,
+		cartStore.error,
 		cartStore?.statusCode,
 		cartStore.isRequestDone,
 		cartStore.statusText,

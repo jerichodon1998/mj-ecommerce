@@ -21,14 +21,8 @@ const Store = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	useEffect(() => {
-		if (!signinStore?.data?.role?.includes("admin")) {
-			router.push("/");
-		}
-	}, [router, signinStore]);
-
-	useEffect(() => {
 		setCurrentPage(router.query.page);
-		if (currentPage) {
+		if (currentPage && signinStore?.data?.role?.includes("admin")) {
 			setPageLoad(true);
 			axiosInstance
 				.get(`products/?page=${currentPage}`)
@@ -41,7 +35,7 @@ const Store = () => {
 					setPageLoad(false);
 				});
 		}
-	}, [router, currentPage]);
+	}, [router, currentPage, signinStore?.data?.role]);
 
 	// reset state
 	useEffect(() => {
@@ -84,7 +78,7 @@ const Store = () => {
 	};
 	return pageLoad ? (
 		<Spinner className={"w-64 h-64 m-auto"} />
-	) : (
+	) : signinStore?.data?.role?.includes("admin") ? (
 		<>
 			<Head>
 				<title>My Store</title>
@@ -97,6 +91,8 @@ const Store = () => {
 			/>
 			<ToastContainer />
 		</>
+	) : (
+		<div className="text-2xl md:text-4xl text-center">Not authorized</div>
 	);
 };
 
