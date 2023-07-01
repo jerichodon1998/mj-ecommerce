@@ -126,6 +126,14 @@ const CartItemComponent = ({ itemId }) => {
 							{productItem.description}
 						</div>
 					</div>
+					<div>
+						<CustomButton
+							text={"remove item"}
+							variant={"light"}
+							onClick={onRemoveItemFromCart}
+							isLoading={cartStore.isLoading}
+						/>
+					</div>
 				</div>
 			);
 		} else {
