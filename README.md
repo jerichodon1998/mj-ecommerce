@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+This app is connected to its backend server [https://github.com/jerichodon1998/mj-backend](https://github.com/jerichodon1998/mj-backend)
+
 ## Getting Started
 
 First, run the development server:
