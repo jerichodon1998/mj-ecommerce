@@ -42,18 +42,20 @@ const ProductCard = ({ product }) => {
 	}, [imagesId]);
 
 	return (
-		<div className="w-64 h-96 border-2 border-primary/5 shadow-lg rounded-md justify-center items-center grid grid-flow-row ">
+		<div className="w-64 h-96 border-2 border-primary/5 shadow-lg rounded-md justify-center items-center grid-flow-row">
 			<div
 				className="w-56 h-48 relative cursor-pointer"
 				onClick={pushToProduct}
 			>
-				{renderImage ? <Image src={renderImage} alt={name} fill /> : null}
+				{renderImage ? (
+					<Image className="rounded-md" src={renderImage} alt={name} fill />
+				) : null}
 				{pageLoad ? <Spinner className={"m-auto"} /> : null}
 			</div>
 			{pageLoad ? (
 				<Spinner className={"m-auto"} />
 			) : (
-				<div className="grid grid-flow-row gap-4">
+				<div className="grid grid-flow-row gap-4 py-5 px-2">
 					<div
 						className="font-bold text-xl leading-3 cursor-pointer"
 						onClick={pushToProduct}
