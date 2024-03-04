@@ -44,7 +44,7 @@ const ProductCard = ({ product }) => {
 	return (
 		<div className="w-64 h-96 border-2 border-primary/5 shadow-lg rounded-md justify-center items-center grid-flow-row">
 			<div
-				className="w-56 h-48 relative cursor-pointer"
+				className="w-100 h-48 relative cursor-pointer"
 				onClick={pushToProduct}
 			>
 				{renderImage ? (
